@@ -1,43 +1,29 @@
-package com.example.cinemaapp
+package com.example.cinema_assignment
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.example.cinema_assignment.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.navigation_films -> {
-                    loadFragment(FilmsFragment())
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_account -> {
-                    loadFragment(AccountFragment())
-                    return@setOnNavigationItemSelectedListener true
-                }
-                R.id.navigation_map -> {
-                    loadFragment(MapFragment())
-                    return@setOnNavigationItemSelectedListener true
-                }
-            }
-            false
-        }
-
-        // Set default selected item
-        bottomNavigationView.selectedItemId = R.id.navigation_films
+        val navController = findNavController(R.id.nav_host_fragment)
+        setupActionBarWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
-    private fun loadFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment, fragment)
-            .commit()
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
