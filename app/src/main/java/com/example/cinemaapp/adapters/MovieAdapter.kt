@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cinemaapp.FilmDetailsFragment
 import com.example.cinemaapp.R
 import com.example.cinemaapp.models.Movie
 
@@ -34,11 +36,18 @@ class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movie
 
         // Set up click listener for the "Buy Tickets" button
         holder.buyTicketsButton.setOnClickListener { view ->
-            val bundle = Bundle().apply {
-                putString("film_title", movie.title)
-                putString("film_time", movie.time)
+            val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+            val filmDetailsFragment = FilmDetailsFragment().apply {
+                val bundle = Bundle().apply {
+                    putString("film_title", movie.title)
+                    putString("film_time", movie.time)
+                }
+                arguments = bundle
             }
-            view.findNavController().navigate(R.id.action_nowShowingFragment_to_filmDetailsFragment, bundle)
+
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.nav_host_fragment, filmDetailsFragment) // Replace with your fragment container ID
+                ?.commit()
         }
     }
 
