@@ -3,6 +3,11 @@
     package="com.example.cinemaapp"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,6 +19,7 @@
         android:theme="@style/Theme.CinemaApp"
         tools:targetApi="31">
 
+        <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
@@ -24,9 +30,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/Theme.CinemaApp"
-            android:exported="true" />
+            android:exported="true">
+            <!-- Ensure MainActivity is launched after SplashActivity -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAFIA1bzrf8wlB26xIbkx96J5LRQ0uwHcM" />
     </application>
 </manifest>
