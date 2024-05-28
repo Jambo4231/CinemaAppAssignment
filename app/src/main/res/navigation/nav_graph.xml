@@ -75,4 +75,19 @@
         android:name="com.example.cinemaapp.AccountInformationFragment"
         android:label="Account Information"
         tools:layout="@layout/fragment_account_information" />
+    <fragment
+        android:id="@+id/filmsFragment"
+        android:name="com.example.cinemaapp.FilmsFragment"
+        android:label="Films"
+        tools:layout="@layout/fragment_films">
+        <action
+            android:id="@+id/action_filmsFragment_to_filmDetailsFragment"
+            app:destination="@id/filmDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filmDetailsFragment"
+        android:name="com.example.cinemaapp.FilmDetailsFragment"
+        android:label="Film Details"
+        tools:layout="@layout/fragment_film_details" />
 </navigation>
