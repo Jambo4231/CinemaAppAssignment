@@ -19,9 +19,9 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // Add a marker in a default location and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        // Add a marker in a default location and move the camera with a zoom level
+        val cinemaLocation = LatLng(56.819817, -5.105218)
+        googleMap.addMarker(MarkerOptions().position(cinemaLocation).title("Cinema Location"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cinemaLocation, 15f))
     }
 }
