@@ -5,6 +5,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- "Buy Now" button -->
+    <Button
+        android:id="@+id/buttonBuyNow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy Now"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
