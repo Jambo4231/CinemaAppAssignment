@@ -3,6 +3,7 @@ package com.example.cinemaapp
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cinemaapp.adapters.MovieAdapter
@@ -15,7 +16,8 @@ class NowShowingFragment : Fragment(R.layout.fragment_now_showing) {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_now_showing)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MovieAdapter(getNowShowingMovies())
+        val navController = findNavController()
+        recyclerView.adapter = MovieAdapter(getNowShowingMovies(), navController)
     }
 
     private fun getNowShowingMovies(): List<Movie> {

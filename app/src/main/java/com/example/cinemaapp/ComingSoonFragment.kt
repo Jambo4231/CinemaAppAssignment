@@ -3,6 +3,7 @@ package com.example.cinemaapp
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cinemaapp.adapters.MovieAdapter
@@ -15,7 +16,8 @@ class ComingSoonFragment : Fragment(R.layout.fragment_coming_soon) {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_coming_soon)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MovieAdapter(getComingSoonMovies()) // Implement the adapter and data source
+        val navController = findNavController()
+        recyclerView.adapter = MovieAdapter(getComingSoonMovies(), navController)
     }
 
     private fun getComingSoonMovies(): List<Movie> {
