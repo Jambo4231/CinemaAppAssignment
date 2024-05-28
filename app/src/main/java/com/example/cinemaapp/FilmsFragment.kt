@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.ViewPager
 
 class FilmsFragment : Fragment(R.layout.fragment_films) {
 
@@ -37,8 +37,5 @@ class FilmsFragment : Fragment(R.layout.fragment_films) {
 
         viewPager.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
-
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabLayout))
-        tabLayout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
     }
 }
