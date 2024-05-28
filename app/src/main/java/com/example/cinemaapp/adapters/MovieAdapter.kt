@@ -1,10 +1,13 @@
 package com.example.cinemaapp.adapters
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cinemaapp.R
 import com.example.cinemaapp.models.Movie
@@ -15,6 +18,7 @@ class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movie
         val title: TextView = view.findViewById(R.id.movie_title)
         val time: TextView = view.findViewById(R.id.movie_time)
         val image: ImageView = view.findViewById(R.id.movie_image)
+        val buyTicketsButton: Button = view.findViewById(R.id.buy_tickets_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -27,6 +31,15 @@ class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movie
         holder.title.text = movie.title
         holder.time.text = movie.time
         holder.image.setImageResource(movie.imageResId)
+
+        // Set up click listener for the "Buy Tickets" button
+        holder.buyTicketsButton.setOnClickListener { view ->
+            val bundle = Bundle().apply {
+                putString("film_title", movie.title)
+                putString("film_time", movie.time)
+            }
+            view.findNavController().navigate(R.id.action_nowShowingFragment_to_filmDetailsFragment, bundle)
+        }
     }
 
     override fun getItemCount(): Int = movies.size
