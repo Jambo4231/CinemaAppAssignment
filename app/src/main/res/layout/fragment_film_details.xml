@@ -7,6 +7,14 @@
     android:padding="16dp"
     tools:context=".FilmDetailsFragment">
 
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_gravity="start"
+        android:layout_marginBottom="16dp" />
+
     <ImageView
         android:id="@+id/film_image"
         android:layout_width="match_parent"
@@ -35,4 +43,18 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:paddingTop="8dp" />
+
+    <Button
+        android:id="@+id/button_select_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Date"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/text_selected_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp" />
 </LinearLayout>
