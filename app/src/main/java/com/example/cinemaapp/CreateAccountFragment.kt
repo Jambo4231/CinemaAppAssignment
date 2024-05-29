@@ -2,6 +2,7 @@ package com.example.cinemaapp
 
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +34,13 @@ class CreateAccountFragment : Fragment(R.layout.fragment_create_account) {
         binding.buttonContinue.setOnClickListener {
             val email = binding.editTextEmail.text.toString().trim()
             val password = binding.editTextPassword.text.toString().trim()
+            val confirmPassword = binding.editTextConfirmPassword.text.toString().trim()
             val firstName = binding.editTextFirstName.text.toString().trim()
             val lastName = binding.editTextLastName.text.toString().trim()
             val mobileNumber = binding.editTextMobileNumber.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty() && mobileNumber.isNotEmpty()) {
+            if (validateInput(email, password, confirmPassword, firstName, lastName, mobileNumber)) {
                 createAccount(email, password, firstName, lastName, mobileNumber)
-            } else {
-                Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -48,6 +48,55 @@ class CreateAccountFragment : Fragment(R.layout.fragment_create_account) {
             // Handle back button click
             requireActivity().onBackPressed()
         }
+    }
+
+    private fun validateInput(email: String, password: String, confirmPassword: String, firstName: String, lastName: String, mobileNumber: String): Boolean {
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.editTextEmail.error = "Valid email required"
+            return false
+        }
+
+        if (password.isEmpty() || password.length < 8) {
+            binding.editTextPassword.error = "Password must be at least 8 characters"
+            return false
+        }
+
+        if (!password.matches(".*[a-z].*".toRegex())) {
+            binding.editTextPassword.error = "Password must contain at least one lowercase letter"
+            return false
+        }
+
+        if (!password.matches(".*\\d.*".toRegex())) {
+            binding.editTextPassword.error = "Password must contain at least one number"
+            return false
+        }
+
+        if (!password.matches(".*[@#\$%^&+=].*".toRegex())) {
+            binding.editTextPassword.error = "Password must contain at least one special character"
+            return false
+        }
+
+        if (password != confirmPassword) {
+            binding.editTextConfirmPassword.error = "Passwords do not match"
+            return false
+        }
+
+        if (firstName.isEmpty()) {
+            binding.editTextFirstName.error = "First name required"
+            return false
+        }
+
+        if (lastName.isEmpty()) {
+            binding.editTextLastName.error = "Last name required"
+            return false
+        }
+
+        if (mobileNumber.isEmpty() || !Patterns.PHONE.matcher(mobileNumber).matches()) {
+            binding.editTextMobileNumber.error = "Valid mobile number required"
+            return false
+        }
+
+        return true
     }
 
     private fun createAccount(email: String, password: String, firstName: String, lastName: String, mobileNumber: String) {
@@ -98,3 +147,4 @@ class CreateAccountFragment : Fragment(R.layout.fragment_create_account) {
         _binding = null
     }
 }
+
