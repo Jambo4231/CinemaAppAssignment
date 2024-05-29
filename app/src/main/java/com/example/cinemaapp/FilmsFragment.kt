@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,14 +34,25 @@ class FilmsFragment : Fragment(R.layout.fragment_films) {
     }
 
     private fun fetchMovies() {
-        firestore.collection("films")  // Updated to match your collection name
+        firestore.collection("films")
             .get()
             .addOnSuccessListener { result ->
                 val movies = result.map { document ->
                     document.toObject(Movie::class.java)
                 }
                 recyclerView.adapter = MovieAdapter(movies) { movie ->
-                    // Handle click event
+                    // Navigate to FilmDetailsFragment
+                    val fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+                    val filmDetailsFragment = FilmDetailsFragment().apply {
+                        val bundle = Bundle().apply {
+                            putParcelable("movie", movie)
+                        }
+                        arguments = bundle
+                    }
+                    fragmentManager.beginTransaction()
+                        .replace(R.id.nav_host_fragment, filmDetailsFragment)
+                        .addToBackStack(null)
+                        .commit()
                 }
             }
             .addOnFailureListener { exception ->
