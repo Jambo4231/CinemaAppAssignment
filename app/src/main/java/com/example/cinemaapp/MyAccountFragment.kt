@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.cinemaapp.databinding.FragmentMyAccountBinding
 
 class MyAccountFragment : Fragment(R.layout.fragment_my_account) {
@@ -25,16 +26,24 @@ class MyAccountFragment : Fragment(R.layout.fragment_my_account) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonChangePassword.setOnClickListener {
-            findNavController().navigate(R.id.action_myAccountFragment_to_changePasswordFragment)
+            navigateToFragment(ChangePasswordFragment())
         }
 
         binding.buttonAccountInformation.setOnClickListener {
-            findNavController().navigate(R.id.action_myAccountFragment_to_accountInformationFragment)
+            navigateToFragment(AccountInformationFragment())
         }
 
         binding.buttonLogout.setOnClickListener {
             // Implement logout functionality
         }
+    }
+
+    private fun navigateToFragment(fragment: Fragment) {
+        val fragmentManager = (view?.context as? AppCompatActivity)?.supportFragmentManager
+        fragmentManager?.beginTransaction()
+            ?.replace(R.id.nav_host_fragment, fragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
     override fun onDestroyView() {
