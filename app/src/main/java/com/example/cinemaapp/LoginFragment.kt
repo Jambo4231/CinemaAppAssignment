@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.cinemaapp.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -42,6 +42,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 .replace(R.id.nav_host_fragment, resetPasswordFragment)
                 .addToBackStack(null)
                 .commit()
+        }
+
+        binding.buttonBack.setOnClickListener {
+            (activity as AppCompatActivity).supportFragmentManager.popBackStack()
         }
     }
 
