@@ -1,24 +1,21 @@
 package com.example.cinemaapp
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.cinemaapp.databinding.FragmentFilmDetailsBinding
 import com.example.cinemaapp.models.Movie
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import com.google.android.material.datepicker.MaterialDatePicker
 
 class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
 
     private var _binding: FragmentFilmDetailsBinding? = null
     private val binding get() = _binding!!
+    private var selectedDate: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,47 +39,33 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
                 .into(binding.filmImage)
         }
 
-        binding.buttonBack.setOnClickListener {
-            requireActivity().onBackPressed()
-        }
-
         binding.buttonSelectDate.setOnClickListener {
-            showDatePickerDialog()
+            val datePicker = MaterialDatePicker.Builder.datePicker().build()
+            datePicker.addOnPositiveButtonClickListener {
+                selectedDate = datePicker.headerText
+                binding.selectedDate.text = selectedDate
+                binding.buttonContinue.visibility = View.VISIBLE
+            }
+            datePicker.show(parentFragmentManager, "datePicker")
         }
 
         binding.buttonContinue.setOnClickListener {
-            navigateToCartFragment()
+            val bundle = Bundle().apply {
+                putParcelable("movie", movie)
+                putString("selectedDate", selectedDate)
+            }
+            val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+            val cartFragment = CartFragment()
+            cartFragment.arguments = bundle
+            fragmentManager?.beginTransaction()
+                ?.replace(R.id.nav_host_fragment, cartFragment)
+                ?.addToBackStack(null)
+                ?.commit()
         }
-    }
 
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val datePickerDialog = DatePickerDialog(
-            requireContext(),
-            { _, year, month, dayOfMonth ->
-                calendar.set(year, month, dayOfMonth)
-                updateSelectedDate(calendar)
-            },
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        datePickerDialog.show()
-    }
-
-    private fun updateSelectedDate(calendar: Calendar) {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        binding.textSelectedDate.text = dateFormat.format(calendar.time)
-        binding.buttonContinue.visibility = View.VISIBLE
-    }
-
-    private fun navigateToCartFragment() {
-        val cartFragment = CartFragment()
-
-        (activity as? AppCompatActivity)?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.nav_host_fragment, cartFragment)
-            ?.addToBackStack(null)
-            ?.commit()
+        binding.buttonBack.setOnClickListener {
+            requireActivity().onBackPressed()
+        }
     }
 
     override fun onDestroyView() {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".FilmDetailsFragment">
+    android:padding="16dp">
 
     <Button
         android:id="@+id/button_back"
@@ -52,10 +50,10 @@
         android:layout_marginTop="16dp" />
 
     <TextView
-        android:id="@+id/text_selected_date"
+        android:id="@+id/selected_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:text="Selected Date"
         android:layout_marginTop="8dp" />
 
     <Button
@@ -64,5 +62,5 @@
         android:layout_height="wrap_content"
         android:text="Continue"
         android:layout_marginTop="16dp"
-        android:visibility="gone" /> <!-- Initially hidden -->
+        android:visibility="gone" />
 </LinearLayout>
