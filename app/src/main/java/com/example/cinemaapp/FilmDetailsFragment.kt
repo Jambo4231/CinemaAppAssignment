@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.cinemaapp.databinding.FragmentFilmDetailsBinding
@@ -47,6 +49,10 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
         binding.buttonSelectDate.setOnClickListener {
             showDatePickerDialog()
         }
+
+        binding.buttonContinue.setOnClickListener {
+            navigateToCartFragment()
+        }
     }
 
     private fun showDatePickerDialog() {
@@ -67,6 +73,16 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
     private fun updateSelectedDate(calendar: Calendar) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         binding.textSelectedDate.text = dateFormat.format(calendar.time)
+        binding.buttonContinue.visibility = View.VISIBLE
+    }
+
+    private fun navigateToCartFragment() {
+        val cartFragment = CartFragment()
+
+        (activity as? AppCompatActivity)?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.nav_host_fragment, cartFragment)
+            ?.addToBackStack(null)
+            ?.commit()
     }
 
     override fun onDestroyView() {
