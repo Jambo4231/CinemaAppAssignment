@@ -47,7 +47,22 @@ class SeatsFragment : Fragment(R.layout.fragment_seats) {
             if (selectedSeats.isEmpty()) {
                 Toast.makeText(requireContext(), "Please select at least one seat", Toast.LENGTH_SHORT).show()
             } else {
-                // Handle continue button click to proceed to the next step
+                val bundle = Bundle().apply {
+                    putParcelable("movie", movie)
+                    putString("selectedDate", selectedDate)
+                    putStringArrayList("selectedSeats", ArrayList(selectedSeats))
+                    putInt("adultTickets", adultTickets)
+                    putInt("seniorTickets", seniorTickets)
+                    putInt("studentTickets", studentTickets)
+                    putInt("childTickets", childTickets)
+                }
+                val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+                val paymentFragment = PaymentFragment()
+                paymentFragment.arguments = bundle
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, paymentFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
             }
         }
 
