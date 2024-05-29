@@ -37,10 +37,38 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
             binding.paymentSelectedDate.text = selectedDate
         }
 
-        binding.paymentSelectedSeats.text = selectedSeats.joinToString(", ")
+        binding.paymentSelectedSeats.text = "Selected Seats: ${selectedSeats.joinToString(", ")}"
 
-        val totalCost = (adultTickets * 7) + (seniorTickets * 6) + (studentTickets * 6) + (childTickets * 5)
-        binding.paymentTotalCost.text = "Total: £$totalCost"
+        val ticketSummary = StringBuilder()
+        var totalCost = 0
+
+        if (adultTickets > 0) {
+            val cost = adultTickets * 7
+            ticketSummary.append("Adult Tickets: $adultTickets x £7 = £$cost\n")
+            totalCost += cost
+        }
+
+        if (seniorTickets > 0) {
+            val cost = seniorTickets * 6
+            ticketSummary.append("Senior Tickets: $seniorTickets x £6 = £$cost\n")
+            totalCost += cost
+        }
+
+        if (studentTickets > 0) {
+            val cost = studentTickets * 6
+            ticketSummary.append("Student Tickets: $studentTickets x £6 = £$cost\n")
+            totalCost += cost
+        }
+
+        if (childTickets > 0) {
+            val cost = childTickets * 5
+            ticketSummary.append("Child Tickets: $childTickets x £5 = £$cost\n")
+            totalCost += cost
+        }
+
+        ticketSummary.append("\nTotal: £$totalCost")
+
+        binding.paymentTicketSummary.text = ticketSummary.toString()
 
         binding.buttonPay.setOnClickListener {
             // Handle the payment process
@@ -56,3 +84,4 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
         _binding = null
     }
 }
+
