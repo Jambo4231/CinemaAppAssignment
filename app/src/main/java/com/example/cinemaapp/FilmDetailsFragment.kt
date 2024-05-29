@@ -30,6 +30,7 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
         movie?.let {
             binding.filmTitle.text = it.title
             binding.filmTime.text = it.time
+            binding.filmDescription.text = it.description
             Glide.with(binding.filmImage.context)
                 .load(it.imageUrl)
                 .into(binding.filmImage)
