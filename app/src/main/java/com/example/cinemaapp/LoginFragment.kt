@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cinemaapp.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -18,6 +19,30 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.buttonLogin.setOnClickListener {
+            val fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+            val myAccountFragment = MyAccountFragment()
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, myAccountFragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.buttonForgottenPassword.setOnClickListener {
+            val fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+            val resetPasswordFragment = ResetPasswordFragment()
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, resetPasswordFragment)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     override fun onDestroyView() {
