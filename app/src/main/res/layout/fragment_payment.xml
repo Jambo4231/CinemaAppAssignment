@@ -18,14 +18,38 @@
             android:layout_marginBottom="16dp" />
 
         <TextView
+            android:id="@+id/payment_film_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Payment"
+            android:text="Film Title"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             android:layout_gravity="center" />
 
-        <!-- Add your payment details input fields here -->
+        <TextView
+            android:id="@+id/payment_selected_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected Date"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/payment_selected_seats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selected Seats"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/payment_total_cost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Cost"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/button_pay"
