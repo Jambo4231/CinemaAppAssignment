@@ -19,8 +19,8 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        // Add a marker in a default location and move the camera with a zoom level
-        val cinemaLocation = LatLng(56.819817, -5.105218)
+        // Add a marker at Cameron Square, Fort William
+        val cinemaLocation = LatLng(56.818933, -5.109302)
         googleMap.addMarker(MarkerOptions().position(cinemaLocation).title("Cinema Location"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cinemaLocation, 15f))
     }
