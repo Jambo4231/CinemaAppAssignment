@@ -1,6 +1,7 @@
 package com.example.cinemaapp
 
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -62,6 +63,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
                     navigateToFragment(MyAccountFragment())
                 } else {
+                    Log.e("LoginFragment", "Login failed: ${task.exception?.message}")
                     Toast.makeText(context, "Login failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
