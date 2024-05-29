@@ -38,14 +38,20 @@
             android:textSize="18sp"
             android:paddingTop="8dp" />
 
-        <!-- List of available seats -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Available Seats"
             android:layout_marginTop="16dp" />
 
-        <!-- Add a RecyclerView or any other view to list seats here -->
+        <GridLayout
+            android:id="@+id/seat_grid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="10"
+            android:rowCount="6"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp" />
 
         <Button
             android:id="@+id/button_continue"
