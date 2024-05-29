@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.cinemaapp.databinding.FragmentCartBinding
 import com.example.cinemaapp.models.Movie
@@ -45,9 +46,26 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
         }
 
         binding.buttonCheckout.setOnClickListener {
-            // Handle the checkout process
-            // For now, just show a toast
-            Toast.makeText(requireContext(), "Proceed to checkout", Toast.LENGTH_SHORT).show()
+            if (adultTickets + seniorTickets + studentTickets + childTickets == 0) {
+                Toast.makeText(requireContext(), "Please add at least one ticket", Toast.LENGTH_SHORT).show()
+            } else {
+                // Pass data to SeatsFragment
+                val bundle = Bundle().apply {
+                    putParcelable("movie", movie)
+                    putString("selectedDate", selectedDate)
+                    putInt("adultTickets", adultTickets)
+                    putInt("seniorTickets", seniorTickets)
+                    putInt("studentTickets", studentTickets)
+                    putInt("childTickets", childTickets)
+                }
+                val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+                val seatsFragment = SeatsFragment()
+                seatsFragment.arguments = bundle
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, seatsFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
         }
     }
 
