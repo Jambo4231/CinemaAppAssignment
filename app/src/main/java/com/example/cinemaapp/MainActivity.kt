@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
 
         // Set default selected item
         bottomNavigationView.selectedItemId = R.id.navigation_films
+
+        supportActionBar?.title = "Fort William Community Cinema"
+
     }
 
     private fun loadFragment(fragment: Fragment) {
