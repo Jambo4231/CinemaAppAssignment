@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.cinemaapp.databinding.FragmentSeatsBinding
 import com.example.cinemaapp.models.Movie
@@ -14,7 +15,6 @@ class SeatsFragment : Fragment(R.layout.fragment_seats) {
 
     private var _binding: FragmentSeatsBinding? = null
     private val binding get() = _binding!!
-
     private val selectedSeats = mutableSetOf<String>()
 
     override fun onCreateView(
@@ -64,6 +64,11 @@ class SeatsFragment : Fragment(R.layout.fragment_seats) {
             for (seatNumber in 1..seatsPerRow) {
                 val seatButton = Button(requireContext()).apply {
                     text = "$row$seatNumber"
+                    textSize = 7f
+                    layoutParams = ViewGroup.LayoutParams(
+                        resources.getDimensionPixelSize(R.dimen.seat_button_size),
+                        resources.getDimensionPixelSize(R.dimen.seat_button_size)
+                    )
                     setOnClickListener { toggleSeatSelection(this) }
                 }
                 binding.seatGrid.addView(seatButton)
@@ -87,3 +92,4 @@ class SeatsFragment : Fragment(R.layout.fragment_seats) {
         _binding = null
     }
 }
+
