@@ -9,7 +9,11 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.cinemaapp.databinding.FragmentFilmDetailsBinding
 import com.example.cinemaapp.models.Movie
+import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
+import android.os.Parcel
+import android.os.Parcelable
+import java.util.*
 
 class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
 
@@ -40,12 +44,19 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
         }
 
         binding.buttonSelectDate.setOnClickListener {
-            val datePicker = MaterialDatePicker.Builder.datePicker().build()
+            val constraintsBuilder = CalendarConstraints.Builder()
+            constraintsBuilder.setValidator(DateValidatorFromNow())
+
+            val datePicker = MaterialDatePicker.Builder.datePicker()
+                .setCalendarConstraints(constraintsBuilder.build())
+                .build()
+
             datePicker.addOnPositiveButtonClickListener {
                 selectedDate = datePicker.headerText
                 binding.selectedDate.text = selectedDate
                 binding.buttonContinue.visibility = View.VISIBLE
             }
+
             datePicker.show(parentFragmentManager, "datePicker")
         }
 
@@ -73,3 +84,28 @@ class FilmDetailsFragment : Fragment(R.layout.fragment_film_details) {
         _binding = null
     }
 }
+
+class DateValidatorFromNow : CalendarConstraints.DateValidator {
+
+    override fun isValid(date: Long): Boolean {
+        return date >= Calendar.getInstance().timeInMillis
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        // no-op
+    }
+
+    override fun describeContents(): Int = 0
+
+    companion object CREATOR : Parcelable.Creator<DateValidatorFromNow> {
+        override fun createFromParcel(parcel: Parcel): DateValidatorFromNow {
+            return DateValidatorFromNow()
+        }
+
+        override fun newArray(size: Int): Array<DateValidatorFromNow?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+
+
