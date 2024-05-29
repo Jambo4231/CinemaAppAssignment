@@ -1,41 +1,50 @@
 package com.example.cinemaapp
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentPagerAdapter
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.cinemaapp.adapters.MovieAdapter
+import com.example.cinemaapp.models.Movie
+import com.google.firebase.firestore.FirebaseFirestore
 
 class FilmsFragment : Fragment(R.layout.fragment_films) {
+
+    private lateinit var recyclerView: RecyclerView
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_films, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
-        val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
+        recyclerView = view.findViewById(R.id.recycler_view_films)
+        recyclerView.layoutManager = LinearLayoutManager(context)
 
-        val adapter = object : FragmentPagerAdapter(childFragmentManager) {
-            override fun getCount(): Int = 3 // Now Showing, Coming Soon, My Bookings
+        fetchMovies()
+    }
 
-            override fun getItem(position: Int): Fragment {
-                return when (position) {
-                    0 -> NowShowingFragment()
-                    1 -> ComingSoonFragment()
-                    else -> MyBookingsFragment()
+    private fun fetchMovies() {
+        firestore.collection("films")  // Updated to match your collection name
+            .get()
+            .addOnSuccessListener { result ->
+                val movies = result.map { document ->
+                    document.toObject(Movie::class.java)
+                }
+                recyclerView.adapter = MovieAdapter(movies) { movie ->
+                    // Handle click event
                 }
             }
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return when (position) {
-                    0 -> "Now Showing"
-                    1 -> "Coming Soon"
-                    else -> "My Bookings"
-                }
+            .addOnFailureListener { exception ->
+                // Handle the error
             }
-        }
-
-        viewPager.adapter = adapter
-        tabLayout.setupWithViewPager(viewPager)
     }
 }

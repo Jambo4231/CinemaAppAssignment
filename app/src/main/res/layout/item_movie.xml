@@ -17,20 +17,19 @@
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:paddingTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/movie_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp" />
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
 
     <Button
         android:id="@+id/buy_tickets_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Buy Tickets"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:textColor="@android:color/white"/>
+        android:layout_marginTop="8dp" />
 </LinearLayout>

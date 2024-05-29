@@ -1,20 +1,20 @@
 package com.example.cinemaapp.adapters
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cinemaapp.FilmDetailsFragment
+import com.bumptech.glide.Glide
 import com.example.cinemaapp.R
 import com.example.cinemaapp.models.Movie
 
-class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(
+    private val movies: List<Movie>,
+    private val onClick: (Movie) -> Unit
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.movie_title)
@@ -32,22 +32,12 @@ class MovieAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movie
         val movie = movies[position]
         holder.title.text = movie.title
         holder.time.text = movie.time
-        holder.image.setImageResource(movie.imageResId)
+        Glide.with(holder.image.context)
+            .load(movie.imageUrl)
+            .into(holder.image)
 
-        // Set up click listener for the "Buy Tickets" button
-        holder.buyTicketsButton.setOnClickListener { view ->
-            val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
-            val filmDetailsFragment = FilmDetailsFragment().apply {
-                val bundle = Bundle().apply {
-                    putString("film_title", movie.title)
-                    putString("film_time", movie.time)
-                }
-                arguments = bundle
-            }
-
-            fragmentManager?.beginTransaction()
-                ?.replace(R.id.nav_host_fragment, filmDetailsFragment) // Replace with your fragment container ID
-                ?.commit()
+        holder.buyTicketsButton.setOnClickListener {
+            onClick(movie)
         }
     }
 

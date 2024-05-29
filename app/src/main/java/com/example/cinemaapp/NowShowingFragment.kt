@@ -11,19 +11,23 @@ import com.example.cinemaapp.models.Movie
 class NowShowingFragment : Fragment(R.layout.fragment_now_showing) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState) // Add savedInstanceState parameter
+        super.onViewCreated(view, savedInstanceState)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view_now_showing)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MovieAdapter(getNowShowingMovies())
+        recyclerView.adapter = MovieAdapter(getNowShowingMovies()) { movie ->
+            // Handle click event, e.g., navigate to movie details
+            // val action = NowShowingFragmentDirections.actionNowShowingFragmentToFilmDetailsFragment(movie)
+            // findNavController().navigate(action)
+        }
     }
 
     private fun getNowShowingMovies(): List<Movie> {
         // Fetch or create a list of movies currently showing
         return listOf(
-            Movie("Godzilla x Kong: The New Empire", "17:00", R.drawable.godzilla_kong),
-            Movie("The Joker: Folie A Deux", "16:40", R.drawable.joker),
-            Movie("Kung Fu Panda 4", "15:00", R.drawable.kung_fu_panda)
+            Movie("Godzilla x Kong: The New Empire", "17:00", "https://example.com/godzilla_kong.jpg"),
+            Movie("The Joker: Folie A Deux", "16:40", "https://example.com/joker.jpg"),
+            Movie("Kung Fu Panda 4", "15:00", "https://example.com/kung_fu_panda.jpg")
         )
     }
 }
