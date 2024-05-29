@@ -4,21 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.cinemaapp.databinding.FragmentMyAccountBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class MyAccountFragment : Fragment(R.layout.fragment_my_account) {
 
     private var _binding: FragmentMyAccountBinding? = null
     private val binding get() = _binding!!
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyAccountBinding.inflate(inflater, container, false)
+        auth = FirebaseAuth.getInstance()
         return binding.root
     }
 
@@ -34,8 +37,14 @@ class MyAccountFragment : Fragment(R.layout.fragment_my_account) {
         }
 
         binding.buttonLogout.setOnClickListener {
-            // Implement logout functionality
+            logout()
         }
+    }
+
+    private fun logout() {
+        auth.signOut()
+        Toast.makeText(context, "Logged out successfully", Toast.LENGTH_SHORT).show()
+        navigateToFragment(AccountFragment())
     }
 
     private fun navigateToFragment(fragment: Fragment) {
