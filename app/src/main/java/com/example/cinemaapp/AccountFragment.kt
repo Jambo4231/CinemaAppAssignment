@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.appcompat.app.AppCompatActivity
 import com.example.cinemaapp.databinding.FragmentAccountBinding
 
 class AccountFragment : Fragment(R.layout.fragment_account) {
@@ -25,11 +25,23 @@ class AccountFragment : Fragment(R.layout.fragment_account) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonCreateAccount.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_createAccountFragment)
+            val fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+            val createAccountFragment = CreateAccountFragment()
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, createAccountFragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.buttonLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_accountFragment_to_loginFragment)
+            val fragmentManager = (activity as AppCompatActivity).supportFragmentManager
+            val loginFragment = LoginFragment()
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.nav_host_fragment, loginFragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 
