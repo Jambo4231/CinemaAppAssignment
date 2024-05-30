@@ -6,10 +6,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.cinemaapp.AuthUtils
+import com.example.cinemaapp.FilmDetailsFragment
 import com.example.cinemaapp.R
 import com.example.cinemaapp.models.Movie
+import com.example.cinemaapp.AccountFragment
+import android.os.Bundle
 
 class MovieAdapter(
     private val movies: List<Movie>,
@@ -36,7 +41,34 @@ class MovieAdapter(
             .load(movie.imageUrl)
             .into(holder.image)
 
-        holder.buyTicketsButton.setOnClickListener {
+        holder.buyTicketsButton.setOnClickListener { view ->
+            if (AuthUtils.isLoggedIn()) {
+                // Navigate to FilmDetailsFragment
+                val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+                val filmDetailsFragment = FilmDetailsFragment().apply {
+                    val bundle = Bundle().apply {
+                        putParcelable("movie", movie)
+                    }
+                    arguments = bundle
+                }
+
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, filmDetailsFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            } else {
+                // Navigate to AccountFragment
+                val fragmentManager = (view.context as? AppCompatActivity)?.supportFragmentManager
+                val accountFragment = AccountFragment()
+
+                fragmentManager?.beginTransaction()
+                    ?.replace(R.id.nav_host_fragment, accountFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
+        }
+
+        holder.itemView.setOnClickListener {
             onClick(movie)
         }
     }
